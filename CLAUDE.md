@@ -20,7 +20,7 @@ custom_components/aux_cloud/
   climate.py           # AuxACClimateEntity (the only climate entity)
   sensor.py            # SENSORS dict — ambient temp, AC target temp, error flag
   switch.py            # SWITCHES dict — power, eco, child lock, etc.
-  translations/        # en.json, pt-BR.json, pl.json, el.json
+  translations/        # en.json, pt-BR.json
   api/
     aux_cloud.py       # AuxCloudAPI: login, get_families, get_devices, get/set params
     aux_cloud_ws.py    # AuxCloudWebSocket (built, not yet wired into runtime)
