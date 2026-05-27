@@ -58,6 +58,21 @@ Credentials are stored in HA's `.storage/core.config_entries`.
 > [!TIP]
 > Make sure the AC is online when adding it. Offline units skip the param fetch and end up with missing entities until you reload the integration.
 
+## Custom Lovelace card (optional)
+
+The integration ships a custom card, `elgin-thermostat-card`, that replaces the default thermostat with a thermostat + inline Display toggle button. It is auto-registered as a Lovelace resource on Storage-mode dashboards (the default). If you run YAML-mode Lovelace, add `/elg_air_hjfc_frontend/elgin-thermostat-card.js` manually under **Settings → Dashboards → Resources** as type *module*.
+
+Usage:
+
+```yaml
+type: custom:elgin-thermostat-card
+entity: climate.elg_air_hjfc_<id>_ac
+# display_entity is auto-discovered from the same device;
+# override only if you have multiple climates and want to pin one.
+# display_entity: switch.elg_air_hjfc_<id>_scrdisp
+# name: Sala
+```
+
 ## Known limitations
 
 - **Logging into the Elgin Air mobile app invalidates the integration's session** (at least on Android). Reload the integration after using the app.
@@ -83,6 +98,8 @@ All cloud communication goes to AUX/Broadlink servers (the same ones the Elgin a
 
 ## Development
 
+Python side:
+
 ```bash
 pip install -r requirements.test.txt
 pytest
@@ -91,3 +108,24 @@ black custom_components/elg_air_hjfc
 ```
 
 Standalone API smoke tests (outside HA) live in `demo.py` and `demo_ws.py`.
+
+Frontend side (the custom card is a Lit + TypeScript module):
+
+```bash
+cd frontend
+npm install
+npm run typecheck   # tsc --noEmit
+npm run build       # bundles to custom_components/elg_air_hjfc/www/elgin-thermostat-card.js
+npm run watch       # rebuild on save during development
+```
+
+Source layout (`frontend/src/`):
+
+- `elgin-thermostat-card.ts` — main element, config + orchestration
+- `components/temperature-dial.ts` — target/current temp + ± buttons
+- `components/hvac-mode-selector.ts` — HVAC mode chip row
+- `components/display-toggle.ts` — Display on/off pill
+- `utils/entity-discovery.ts` — auto-discover the `*_scrdisp` switch from the climate's device
+- `types.ts` — minimal HA + config types
+
+The built `.js` is committed under `custom_components/.../www/` so end users don't need Node.

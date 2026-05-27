@@ -8,8 +8,10 @@ AuxCloudAPI.
 
 import asyncio
 from datetime import timedelta
+from pathlib import Path
 
 import voluptuous as vol
+from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_REGION
 from homeassistant.core import HomeAssistant
@@ -27,6 +29,11 @@ from .const import (
 )
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=60)
+
+FRONTEND_RESOURCE_PATH = "/elg_air_hjfc_frontend"
+FRONTEND_RESOURCE_FILE = "elgin-thermostat-card.js"
+FRONTEND_RESOURCE_URL = f"{FRONTEND_RESOURCE_PATH}/{FRONTEND_RESOURCE_FILE}"
+FRONTEND_REGISTERED_KEY = "elg_air_hjfc_frontend_registered"
 
 # Schema to include email and password (device selection is handled in config flow)
 CONFIG_SCHEMA = vol.Schema(
@@ -175,6 +182,10 @@ class AuxCloudCoordinator(DataUpdateCoordinator):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up AUX Cloud from a config entry."""
+    if not hass.data.get(FRONTEND_REGISTERED_KEY):
+        hass.data[FRONTEND_REGISTERED_KEY] = True
+        await _register_frontend(hass)
+
     region = entry.data.get(CONF_REGION, "eu")
     api = AuxCloudAPI(region=region)
     email = entry.data.get(CONF_EMAIL)
@@ -217,3 +228,48 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if unload_ok:
         hass.data.pop(DOMAIN)
     return unload_ok
+
+
+async def _register_frontend(hass: HomeAssistant) -> None:
+    """Register the custom Lovelace card: static path + auto-register as a resource.
+
+    Static path serves the built `www/elgin-thermostat-card.js` over HTTP.
+    The Lovelace resource registration is best-effort: it only works on
+    Storage-mode Lovelace, and gracefully degrades to a log warning if the
+    HA internals change. Users on YAML-mode Lovelace must add the resource
+    manually — see README.
+    """
+    www_path = Path(__file__).parent / "www"
+    try:
+        await hass.http.async_register_static_paths(
+            [StaticPathConfig(FRONTEND_RESOURCE_PATH, str(www_path), False)]
+        )
+    except Exception as exc:  # pragma: no cover
+        _LOGGER.warning("Failed to register static path for frontend card: %s", exc)
+        return
+
+    try:
+        resources = hass.data["lovelace"].resources
+        if not resources.loaded:
+            await resources.async_load()
+        existing = [
+            item
+            for item in resources.async_items()
+            if item.get("url", "").startswith(FRONTEND_RESOURCE_URL)
+        ]
+        if existing:
+            return
+        await resources.async_create_item(
+            {"res_type": "module", "url": FRONTEND_RESOURCE_URL}
+        )
+        _LOGGER.info(
+            "Registered Elgin Thermostat Card as Lovelace resource (%s)",
+            FRONTEND_RESOURCE_URL,
+        )
+    except (KeyError, AttributeError, TypeError) as exc:
+        _LOGGER.warning(
+            "Could not auto-register Lovelace resource (add %s manually under "
+            "Settings -> Dashboards -> Resources): %s",
+            FRONTEND_RESOURCE_URL,
+            exc,
+        )

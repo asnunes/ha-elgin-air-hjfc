@@ -37,6 +37,18 @@ custom_components/elg_air_hjfc/
     aux_cloud_ws.py    # AuxCloudWebSocket (built, not yet wired into runtime)
     const.py           # Param keys (AC_*), AuxProducts product-id catalog
     util.py            # encrypt_aes_cbc_zero_padding
+  www/
+    elgin-thermostat-card.js   # built artifact, served at /elg_air_hjfc_frontend/...
+frontend/              # Lit + TypeScript source for the custom Lovelace card
+  src/
+    elgin-thermostat-card.ts   # main element (orchestration)
+    components/
+      temperature-dial.ts      # target/current temp + +/- buttons
+      hvac-mode-selector.ts    # HVAC mode chip row
+      display-toggle.ts        # display on/off pill
+    utils/entity-discovery.ts  # auto-discover *_scrdisp switch from device
+    types.ts                   # minimal HA + config types
+  build.mjs            # esbuild bundle to ../custom_components/.../www/
 demo.py / demo_ws.py   # Standalone scripts hitting the cloud API directly
 tests/                 # pytest + pytest-homeassistant-custom-component
 ```
@@ -59,6 +71,15 @@ tests/                 # pytest + pytest-homeassistant-custom-component
 - `AuxProducts.DeviceType.AC_GENERIC` — two product IDs (`c0620000`, `2a4e0000`). Anything else is filtered out at platform setup time.
 - All temperatures are stored ×10 internally (e.g. `temp=240` → 24.0 °C). Convert at the entity boundary, not inside the API layer.
 - `tempunit` param exists (`1` = Celsius) but is not read by the integration. Entities declare `UnitOfTemperature.CELSIUS`; HA's system-wide unit setting handles user-facing C↔F conversion.
+
+## Custom Lovelace card
+
+There's a Lit + TypeScript custom card `elgin-thermostat-card` that visually replaces the default HA thermostat card and adds an inline Display toggle (the default `thermostat` card has no slot for arbitrary toggles, so this was the only way to get the button **inside** the widget). Source under `frontend/src/`, built to `custom_components/elg_air_hjfc/www/elgin-thermostat-card.js` via esbuild.
+
+- **Auto-registration**: `_register_frontend()` in `__init__.py` runs once per HA boot (guarded by `hass.data[FRONTEND_REGISTERED_KEY]`). It registers the static path `/elg_air_hjfc_frontend` and best-effort adds the JS as a Lovelace resource via `hass.data["lovelace"].resources`. Falls back to a log warning on YAML-mode Lovelace.
+- **Components communicate filho → pai via `CustomEvent`** (`temperature-step`, `hvac-mode-change`, `display-toggle`) with `bubbles: true, composed: true` so they cross shadow DOM. Parent doesn't pass callbacks; children don't know about HA services.
+- **Built JS is committed**. Don't try to make HACS run npm on the user side. When editing the TS, `cd frontend && npm run build` and commit the regenerated `.js`.
+- **HA frontend API changes** can break this card without warning. If `hass.data["lovelace"].resources` shape changes, `_register_frontend` logs a warning and the user has to add the resource manually — the static path stays working regardless.
 
 ## AC climate range
 
