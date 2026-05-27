@@ -1,0 +1,109 @@
+{
+  "config": {
+    "flow_title": "AUX Cloud: {name}",
+    "abort": {
+      "single_instance_allowed": "Já configurado. Apenas uma configuração é permitida.",
+      "no_devices_found": "Nenhum dispositivo AUX Cloud encontrado. Verifique sua conta.",
+      "fetch_devices_failed": "Falha ao buscar dispositivos do AUX Cloud.",
+      "login_required": "Login necessário antes da seleção de dispositivos."
+    },
+    "error": {
+      "user_login_failed": "Falha no login. Verifique suas credenciais.",
+      "cannot_connect": "Falha ao conectar ao servidor AUX Cloud.",
+      "invalid_auth": "Autenticação inválida",
+      "unknown": "Erro inesperado"
+    },
+    "step": {
+      "user": {
+        "title": "Login AUX Cloud",
+        "description": "Informe as credenciais da sua conta AUX Cloud",
+        "data": {
+          "email": "E-mail",
+          "password": "Senha",
+          "region": "Região"
+        }
+      },
+      "select_devices": {
+        "title": "Selecionar dispositivos AUX Cloud",
+        "description": "Encontrados {devices_count} dispositivos em {families_count} residências. Selecione os dispositivos que deseja adicionar ao Home Assistant.",
+        "data": {
+          "selected_devices": "Selecionar dispositivos"
+        }
+      }
+    },
+    "progress": {
+      "fetching_devices": "Buscando seus dispositivos... Isso pode levar um momento."
+    }
+  },
+  "options": {
+    "abort": {
+      "missing_credentials": "Credenciais ausentes. Reconfigure a integração.",
+      "no_devices_found": "Nenhum dispositivo AUX Cloud encontrado. Verifique sua conta.",
+      "fetch_devices_failed": "Falha ao buscar dispositivos do AUX Cloud."
+    },
+    "step": {
+      "init": {
+        "title": "Atualizar dispositivos AUX Cloud",
+        "description": "Selecione quais dispositivos você quer monitorar e controlar pelo Home Assistant.",
+        "data": {
+          "selected_devices": "Selecionar dispositivos"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "ambient_temperature": {
+        "name": "Temperatura ambiente"
+      },
+      "ac_temperature": {
+        "name": "Temperatura do ar-condicionado"
+      }
+    },
+    "climate": {
+      "aux_ac": {
+        "name": "Ar-condicionado"
+      }
+    },
+    "switch": {
+      "aux_ecomode": {
+        "name": "Modo Eco"
+      },
+      "aux_ac_power": {
+        "name": "Ligar/desligar"
+      },
+      "aux_aux_heat": {
+        "name": "Aquecimento auxiliar"
+      },
+      "aux_self_cleaning": {
+        "name": "Autolimpeza"
+      },
+      "aux_child_lock": {
+        "name": "Trava de segurança"
+      },
+      "aux_comfortable_wind": {
+        "name": "Vento confortável"
+      },
+      "aux_health_mode": {
+        "name": "Modo saúde"
+      },
+      "aux_mildew_proof": {
+        "name": "Antimofo"
+      },
+      "aux_sleep_mode": {
+        "name": "Modo dormir"
+      },
+      "aux_screen_display": {
+        "name": "Display"
+      },
+      "aux_power_limit": {
+        "name": "Limite de potência"
+      }
+    },
+    "number": {
+      "aux_power_limit_percentage": {
+        "name": "Percentual do limite de potência"
+      }
+    }
+  }
+}
