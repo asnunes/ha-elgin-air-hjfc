@@ -5,7 +5,7 @@ Personal Home Assistant integration for a **cooling-only Elgin HJFC** split AC. 
 This started as a fork of [maeek/ha-aux-cloud](https://github.com/maeek/ha-aux-cloud). Heat pump support, heating mode, power-limit, comfortable-wind, horizontal swing, water heater, Greek/Polish locales — all stripped. What remains is the narrow path needed to control one frio HJFC unit from HA.
 
 - Integration domain: `elg_air_hjfc`
-- Repo: https://github.com/asnunes/ha-aux-cloud (fork)
+- Repo: https://github.com/asnunes/ha-elgin-air-hjfc (fork)
 - Upstream: https://github.com/maeek/ha-aux-cloud
 - Min HA: `2025.4.0` (see `hacs.json`)
 - Distribution: HACS custom repo + manual `custom_components/` install
