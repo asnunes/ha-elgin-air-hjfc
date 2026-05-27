@@ -72,9 +72,6 @@
       "aux_ac_power": {
         "name": "Zasilanie klimatyzatora"
       },
-      "aux_aux_heat": {
-        "name": "Ogrzewanie pomocnicze"
-      },
       "aux_self_cleaning": {
         "name": "Samoczyszczenie"
       },

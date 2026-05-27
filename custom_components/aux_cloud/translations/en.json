@@ -72,9 +72,6 @@
       "aux_ac_power": {
         "name": "AC Power"
       },
-      "aux_aux_heat": {
-        "name": "Auxiliary Heat"
-      },
       "aux_self_cleaning": {
         "name": "Self Cleaning"
       },

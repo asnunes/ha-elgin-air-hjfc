@@ -13,7 +13,6 @@ from .api.const import (
     AC_MODE_COOLING,
     AC_MODE_DRY,
     AC_MODE_FAN,
-    AC_MODE_HEATING,
     AUX_MODE,
     ACFanSpeed,
 )
@@ -32,7 +31,6 @@ CONF_SELECTED_DEVICES = "selected_devices"
 MODE_MAP_AUX_AC_TO_HA = {
     AC_MODE_AUTO.get(AUX_MODE): HVACMode.AUTO,
     AC_MODE_COOLING.get(AUX_MODE): HVACMode.COOL,
-    AC_MODE_HEATING.get(AUX_MODE): HVACMode.HEAT,
     AC_MODE_DRY.get(AUX_MODE): HVACMode.DRY,
     AC_MODE_FAN.get(AUX_MODE): HVACMode.FAN_ONLY,
 }

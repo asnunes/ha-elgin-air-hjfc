@@ -156,8 +156,6 @@ class AuxACClimateEntity(BaseEntity, CoordinatorEntity, ClimateEntity):
         """Return the current HVAC action."""
         if self.hvac_mode == HVACMode.OFF:
             return HVACAction.OFF
-        if self.hvac_mode == HVACMode.HEAT:
-            return HVACAction.HEATING
         if self.hvac_mode == HVACMode.COOL:
             return HVACAction.COOLING
         if self.hvac_mode == HVACMode.DRY:

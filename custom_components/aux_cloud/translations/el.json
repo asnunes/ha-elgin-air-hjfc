@@ -72,9 +72,6 @@
       "aux_ac_power": {
         "name": "Ισχύς Κλιματιστικού"
       },
-      "aux_aux_heat": {
-        "name": "Βοηθητική Θέρμανση"
-      },
       "aux_self_cleaning": {
         "name": "Αυτοκαθαρισμός"
       },

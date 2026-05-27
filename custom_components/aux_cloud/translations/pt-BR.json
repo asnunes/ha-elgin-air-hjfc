@@ -72,9 +72,6 @@
       "aux_ac_power": {
         "name": "Ligar/desligar"
       },
-      "aux_aux_heat": {
-        "name": "Aquecimento auxiliar"
-      },
       "aux_self_cleaning": {
         "name": "Autolimpeza"
       },

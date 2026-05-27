@@ -56,12 +56,16 @@ tests/                 # pytest + pytest-homeassistant-custom-component
 
 ## Feature scope (intentional gaps)
 
-This fork targets the Elgin HJ/KO/HJFC/HJQC High Wall family. Features that aren't documented in those manuals were stripped:
+This fork targets a single **cooling-only** Elgin HJFC unit. Features outside that scope were stripped:
 
-- **Swing**: only vertical. Horizontal swing (`ac_hdir`) was removed — these models only have a motorized vertical louver.
+- **HVAC modes**: `AUTO`, `COOL`, `DRY`, `FAN_ONLY` only. `HEAT` was removed (cooling-only).
+- **Auxiliary Heat** (`ac_astheat`): removed — paired with HEAT mode.
+- **Swing**: only vertical. Horizontal swing (`ac_hdir`) was removed — Elgin High Wall models only have a motorized vertical louver.
 - **Comfortable Wind** (`comfwind`): removed — not described in any of the operation/Wi-Fi manuals.
 
 Protocol metadata params (`new_type`, `ac_tempconvert`, `tempunit`, `sleepdiy`, `tenelec`, `ac_errcode1`, `err_flag`) stay in `AC_PARAMS` so they keep being fetched, even though no entity exposes them today. `sleepdiy` in particular is the data behind the "Dormir Personalizado" feature in the Elgin app — leave it in if you ever wire that up.
+
+If you ever need heating back, you need to put back: `AC_MODE_HEATING` and its entry in `MODE_MAP_AUX_AC_TO_HA`, the `HVACAction.HEATING` branch in `climate.py:hvac_action`, and the `AC_AUXILIARY_HEAT` switch + constants.
 
 ## Conventions
 

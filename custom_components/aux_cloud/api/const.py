@@ -18,7 +18,6 @@ AC_TEMPERATURE_TARGET = "temp"
 AC_TEMPERATURE_AMBIENT = "envtemp"
 
 AC_MODE_COOLING = {AUX_MODE: 0}
-AC_MODE_HEATING = {AUX_MODE: 1}
 AC_MODE_DRY = {AUX_MODE: 2}
 AC_MODE_FAN = {AUX_MODE: 3}
 AC_MODE_AUTO = {AUX_MODE: 4}
@@ -26,10 +25,6 @@ AC_MODE_AUTO = {AUX_MODE: 4}
 AC_SWING_VERTICAL = "ac_vdir"
 AC_SWING_VERTICAL_ON = {AC_SWING_VERTICAL: 1}
 AC_SWING_VERTICAL_OFF = {AC_SWING_VERTICAL: 0}
-
-AC_AUXILIARY_HEAT = "ac_astheat"
-AC_AUXILIARY_HEAT_OFF = {AC_AUXILIARY_HEAT: 0}
-AC_AUXILIARY_HEAT_ON = {AC_AUXILIARY_HEAT: 1}
 
 AC_CLEAN = "ac_clean"
 AC_CLEAN_OFF = {AC_CLEAN: 0}
@@ -95,7 +90,6 @@ class AuxProducts:
         return "Unknown"
 
     AC_PARAMS = [
-        AC_AUXILIARY_HEAT,
         AC_CLEAN,
         AC_HEALTH,
         AC_FAN_SPEED,
@@ -139,12 +133,11 @@ class AuxProducts:
 
 """
 AC PARAMETERS NOT TESTED ALL
-'ac_astheat': 0 - Auxiliary heating is off
 'ac_clean': 0 - Self-cleaning function is off
 'ac_errcode1': 0 - No error code (system functioning normally)
 'ac_health': 0 - Health function (likely ionizer/purifier) is off
 'ac_mark': 1 - Fan speed 1 is lowest speed (typical speeds: 1=Low, 2=Medium, 3=High, 4=Turbo, 5=Mute)
-'ac_mode': 1 - Mode is set to 1, likely "Cool" mode (typical modes: 0=Auto, 1=Cool, 2=Dry, 3=Fan, 4=Heat)
+'ac_mode': 1 - Mode is set to 1 (cooling-only fork; modes: 0=Auto, 1=Cool, 2=Dry, 3=Fan)
 'ac_slp': 0 - Sleep mode is off
 'ac_tempconvert': 0 - No temperature conversion happening
 'ac_vdir': 0 - Vertical airflow direction at default/center position

@@ -5,7 +5,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .api.const import (
-    AC_AUXILIARY_HEAT,
     AC_CHILD_LOCK,
     AC_CLEAN,
     AC_HEALTH,
@@ -35,14 +34,6 @@ SWITCHES = {
             name="AC Power",
             icon="mdi:air-conditioner",
             translation_key="aux_ac_power",
-        ),
-    },
-    AC_AUXILIARY_HEAT: {
-        "description": SwitchEntityDescription(
-            key=AC_AUXILIARY_HEAT,
-            name="Auxiliary Heat",
-            icon="mdi:heat-wave",
-            translation_key="aux_aux_heat",
         ),
     },
     AC_CLEAN: {
