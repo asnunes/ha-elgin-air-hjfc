@@ -57,5 +57,4 @@ PLATFORMS = [
     Platform.CLIMATE,
     Platform.SENSOR,
     Platform.SWITCH,
-    Platform.NUMBER,
 ]

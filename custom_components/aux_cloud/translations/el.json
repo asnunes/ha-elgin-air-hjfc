@@ -89,14 +89,6 @@
       },
       "aux_screen_display": {
         "name": "Εμφάνιση Οθόνης"
-      },
-      "aux_power_limit": {
-        "name": "Περιορισμός Ισχύος"
-      }
-    },
-    "number": {
-      "aux_power_limit_percentage": {
-        "name": "Ποσοστό Περιορισμού Ισχύος"
       }
     }
   }

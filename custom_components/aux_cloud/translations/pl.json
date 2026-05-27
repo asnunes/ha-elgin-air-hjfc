@@ -89,14 +89,6 @@
       },
       "aux_screen_display": {
         "name": "Wyświetlacz"
-      },
-      "aux_power_limit": {
-        "name": "Ograniczenie mocy"
-      }
-    },
-    "number": {
-      "aux_power_limit_percentage": {
-        "name": "Procent ograniczenia mocy"
       }
     }
   }

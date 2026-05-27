@@ -50,11 +50,6 @@ AC_SCREEN_DISPLAY = "scrdisp"
 AC_SCREEN_DISPLAY_OFF = {AC_SCREEN_DISPLAY: 0}
 AC_SCREEN_DISPLAY_ON = {AC_SCREEN_DISPLAY: 1}
 
-AC_POWER_LIMIT = "pwrlimit"
-AC_POWER_LIMIT_SWITCH = "pwrlimitswitch"
-AC_POWER_LIMIT_OFF = {AC_POWER_LIMIT: 0}
-AC_POWER_LIMIT_ON = {AC_POWER_LIMIT: 1}
-
 # This is a special parameter that allows for fetching envtemp from the AC
 AC_MODE_SPECIAL = "mode"
 
@@ -103,8 +98,6 @@ class AuxProducts:
         AC_SCREEN_DISPLAY,
         AC_TEMPERATURE_TARGET,
         AC_TEMPERATURE_AMBIENT,
-        AC_POWER_LIMIT,
-        AC_POWER_LIMIT_SWITCH,
         AC_CHILD_LOCK,
         "new_type",
         "ac_tempconvert",
@@ -149,8 +142,6 @@ AC PARAMETERS NOT TESTED ALL
 'model': 1 - Device model identifier
 'new_type': 1 - Indicates this is a newer type of AC unit
 'pwr': 0 - Power is off (unit is in standby)
-'pwrlimit': 0 - Power limitation function is off
-'pwrlimitswitch': 0 - Power limit switch is off
 'scrdisp': 1 - Screen display is on
 'sleepdiy': 1 - Custom sleep mode is on
 'temp': 240 - Set temperature (likely 24.0°C)

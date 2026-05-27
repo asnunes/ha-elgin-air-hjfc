@@ -89,14 +89,6 @@
       },
       "aux_screen_display": {
         "name": "Screen Display"
-      },
-      "aux_power_limit": {
-        "name": "Power Limit"
-      }
-    },
-    "number": {
-      "aux_power_limit_percentage": {
-        "name": "Power Limit Percentage"
       }
     }
   }

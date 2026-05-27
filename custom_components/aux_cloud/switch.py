@@ -10,7 +10,6 @@ from .api.const import (
     AC_HEALTH,
     AC_MILDEW_PROOF,
     AC_POWER,
-    AC_POWER_LIMIT_SWITCH,
     AC_SCREEN_DISPLAY,
     AC_SLEEP,
     AUX_ECOMODE,
@@ -82,14 +81,6 @@ SWITCHES = {
             name="Screen Display",
             icon="mdi:monitor-dashboard",
             translation_key="aux_screen_display",
-        ),
-    },
-    AC_POWER_LIMIT_SWITCH: {
-        "description": SwitchEntityDescription(
-            key=AC_POWER_LIMIT_SWITCH,
-            name="Power Limit",
-            icon="mdi:power-socket-eu",
-            translation_key="aux_power_limit",
         ),
     },
 }

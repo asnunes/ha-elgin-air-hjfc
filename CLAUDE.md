@@ -20,8 +20,7 @@ custom_components/aux_cloud/
   climate.py           # AuxACClimateEntity (the only climate entity)
   sensor.py            # SENSORS dict — ambient temp, AC target temp, error flag
   switch.py            # SWITCHES dict — power, eco, child lock, etc.
-  number.py            # NUMBERS dict — power-limit %
-  translations/        # en.json, pl.json, el.json
+  translations/        # en.json, pt-BR.json, pl.json, el.json
   api/
     aux_cloud.py       # AuxCloudAPI: login, get_families, get_devices, get/set params
     aux_cloud_ws.py    # AuxCloudWebSocket (built, not yet wired into runtime)
@@ -31,7 +30,7 @@ demo.py / demo_ws.py   # Standalone scripts hitting the cloud API directly
 tests/                 # pytest + pytest-homeassistant-custom-component
 ```
 
-`PLATFORMS` in `const.py` is the authoritative list of platforms forwarded by `async_setup_entry` — keep it in sync when adding a new platform file. Currently: `CLIMATE`, `SENSOR`, `SWITCH`, `NUMBER`.
+`PLATFORMS` in `const.py` is the authoritative list of platforms forwarded by `async_setup_entry` — keep it in sync when adding a new platform file. Currently: `CLIMATE`, `SENSOR`, `SWITCH`.
 
 ## Architecture
 
@@ -98,7 +97,7 @@ python demo_ws.py     # exercises the WebSocket client
 ## Things to know before changing
 
 - **Adding a new region**: append to the `self.url` dict in `AuxCloudAPI.__init__`, the config-flow region list (`["eu", "usa", "cn", "rus"]`), and the WS URL switch in `aux_cloud_ws.py` if WS is needed.
-- **Adding a new param**: define the constant + on/off dicts in `api/const.py`, append to `AuxProducts.AC_PARAMS` (or `AC_SPECIAL_PARAMS`), then register the entity in the corresponding platform dict (`SWITCHES`/`SENSORS`/`NUMBERS`). Entity selection per device is driven by whether the param is in `AC_PARAMS`.
+- **Adding a new param**: define the constant + on/off dicts in `api/const.py`, append to `AuxProducts.AC_PARAMS` (or `AC_SPECIAL_PARAMS`), then register the entity in the corresponding platform dict (`SWITCHES`/`SENSORS`). Entity selection per device is driven by whether the param is in `AC_PARAMS`.
 - **Heat pump is intentionally gone**. If you want to bring it back, check the git history for the rip-out commit and revert the relevant files — don't shim around the deletions.
 - **Login is per-process**: the AUX mobile app will invalidate the integration's session when the user logs into the app (Android at least). README documents this; reload the integration after using the app.
 - **WebSocket client exists but is not connected** by the coordinator — `initialize_websocket` is implemented and there's a `demo_ws.py`, but the coordinator still polls.
