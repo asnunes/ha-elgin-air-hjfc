@@ -133,4 +133,4 @@ python demo_ws.py     # exercises the WebSocket client
 - **Heat pump / heating is intentionally gone**. If you want to bring back, check the git history for the rip-out commits and revert the relevant files — don't shim around the deletions.
 - **Login is per-process**: the Elgin Air mobile app will invalidate the integration's session when the user logs into the app (Android at least). Reload the integration after using the app.
 - **WebSocket client exists but is not connected** by the coordinator — `initialize_websocket` is implemented and there's a `demo_ws.py`, but the coordinator still polls.
-- **README.md is out of date** vs. this fork — still mentions heat pumps and the upstream name. Not updated since this is a personal fork; ignore for code reasoning, this CLAUDE.md is the truth.
+- **README.md and CLAUDE.md are kept in sync** — README is the user-facing entrypoint, CLAUDE.md the architecture/contributor reference. When changing scope (adding/removing features, renaming things), update both.
