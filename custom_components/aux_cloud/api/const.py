@@ -1,5 +1,4 @@
 from enum import auto
-import json
 
 
 # Common constants
@@ -89,39 +88,6 @@ class ACFanSpeed(auto):
     MUTE = 5
 
 
-# Heat Pump constants
-HP_MODE_AUTO = {AUX_MODE: 0}
-HP_MODE_COOLING = {AUX_MODE: 1}
-HP_MODE_HEATING = {AUX_MODE: 4}
-
-HP_HEATER_POWER = "ac_pwr"
-HP_HEATER_POWER_OFF = {HP_HEATER_POWER: 0}
-HP_HEATER_POWER_ON = {HP_HEATER_POWER: 1}
-
-HP_HEATER_TEMPERATURE_TARGET = "ac_temp"
-
-HP_HEATER_AUTO_WATER_TEMP = "hp_auto_wtemp"
-"""
-Auto water temperature control for heat pump.
-    0 - Off
-    1...8 - Predefined controls
-    9 - User defined control - set manually on heat pump
-"""
-
-HP_WATER_POWER = "hp_pwr"
-HP_WATER_POWER_OFF = {HP_WATER_POWER: 0}
-HP_WATER_POWER_ON = {HP_WATER_POWER: 1}
-
-HP_QUIET_MODE = "qtmode"
-
-HP_HOT_WATER_TANK_TEMPERATURE = "hp_water_tank_temp"
-HP_HOT_WATER_TEMPERATURE_TARGET = "hp_hotwater_temp"
-
-HP_WATER_FAST_HOTWATER = "hp_fast_hotwater"
-HP_WATER_FAST_HOTWATER_ON = {HP_WATER_FAST_HOTWATER: 1}
-HP_WATER_FAST_HOTWATER_OFF = {HP_WATER_FAST_HOTWATER: 0}
-
-
 class AuxProducts:
     class DeviceType:
         AC_GENERIC = [
@@ -129,15 +95,11 @@ class AuxProducts:
             "0000000000000000000000002a4e0000",
         ]
 
-        HEAT_PUMP = ["000000000000000000000000c3aa0000"]
-
     @staticmethod
     def get_device_name(product_id):
         """A utility method to determine the device name based on a given product ID."""
         if product_id in AuxProducts.DeviceType.AC_GENERIC:
             return "AUX Air Conditioner"
-        if AuxProducts.DeviceType.HEAT_PUMP:
-            return "AUX Heat Pump"
         return "Unknown"
 
     AC_PARAMS = [
@@ -170,77 +132,19 @@ class AuxProducts:
 
     AC_SPECIAL_PARAMS = [AC_MODE_SPECIAL]
 
-    HP_PARAMS = [
-        "ac_errcode1",
-        AUX_MODE,
-        HP_HEATER_POWER,
-        HP_HEATER_TEMPERATURE_TARGET,
-        AUX_ECOMODE,
-        AUX_ERROR_FLAG,
-        HP_HEATER_AUTO_WATER_TEMP,
-        HP_WATER_FAST_HOTWATER,
-        HP_HOT_WATER_TEMPERATURE_TARGET,
-        HP_WATER_POWER,
-        HP_QUIET_MODE,
-    ]
-
-    HP_SPECIAL_PARAMS = [HP_HOT_WATER_TANK_TEMPERATURE]
-
     @staticmethod
     def get_params_list(product_id):
-        """
-        This static method retrieves a list of parameters associated with a given product ID.
-        The product ID is used to determine the corresponding device type and return the
-        appropriate set of parameters. If the product ID does not match any known device type,
-        the method returns None.
-
-        Args:
-            product_id: The ID of the product whose parameters need to be fetched.
-
-        Returns:
-            A list of parameters corresponding to the given product ID if the product
-            ID matches a known device type. Returns None if no match is found.
-        """
+        """Return the params list for the given product ID, or None if unknown."""
         if product_id in AuxProducts.DeviceType.AC_GENERIC:
             return AuxProducts.AC_PARAMS
-        if product_id in AuxProducts.DeviceType.HEAT_PUMP:
-            return AuxProducts.HP_PARAMS
         return None
 
     @staticmethod
     def get_special_params_list(product_id):
-        """
-        Retrieves the list of special parameters based on the product ID.
-
-        This method checks the given product ID and determines the appropriate
-        special parameters list specific to the product type. It handles different
-        categories such as AC (Air Conditioner) and Heat Pump.
-
-        Args:
-            product_id (int): The ID of the product to retrieve special parameters for.
-
-        Returns:
-            list or None: A list of special parameters if the product ID corresponds
-            to a known type, otherwise returns None.
-        """
+        """Return the special params list for the given product ID, or None if unknown."""
         if product_id in AuxProducts.DeviceType.AC_GENERIC:
             return AuxProducts.AC_SPECIAL_PARAMS
-        if product_id in AuxProducts.DeviceType.HEAT_PUMP:
-            return AuxProducts.HP_SPECIAL_PARAMS
         return None
-
-    @staticmethod
-    def is_v3_heat_pump(device: dict) -> bool:
-        """Determine if a device is a v3 or later heat pump based on its parameters."""
-        try:
-            version = json.loads(device.get("extern", "{}"))
-        except json.JSONDecodeError:
-            return False
-
-        return (
-            version.get("ver", 0) >= 3
-            and device.get("productId") in AuxProducts.DeviceType.HEAT_PUMP
-        )
 
 
 """
@@ -270,19 +174,4 @@ AC PARAMETERS NOT TESTED ALL
 'sleepdiy': 1 - Custom sleep mode is on
 'temp': 240 - Set temperature (likely 24.0°C)
 'tempunit': 1 - Temperature unit (1 typically means Celsius)
-
-HEAT PUMP PARAMETERS NOT TESTED
-'hp_pwr'
-'hp_water_tank_temp'
-'ac_errcode1'
-'hp_fast_hotwater'
-'err_flag'
-'hp_auto_wtemp'
-'ac_pwr'
-'hp_hotwater_temp'
-'ac_temp'
-'ac_mode'
-'qtmode'
-'ecomode'
-'ver_old'
 """

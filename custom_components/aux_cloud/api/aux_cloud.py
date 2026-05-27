@@ -8,7 +8,7 @@ from typing import TypedDict
 
 import aiohttp
 
-from .const import AuxProducts, HP_HOT_WATER_TANK_TEMPERATURE
+from .const import AuxProducts
 from .util import encrypt_aes_cbc_zero_padding
 from .aux_cloud_ws import AuxCloudWebSocket
 
@@ -72,31 +72,6 @@ class ExpiredTokenError(Exception):
 
 class AuxApiError(Exception):
     """Exception raised when querying devices fails."""
-
-
-def _decode_v3_hp_tank_temp_from_key_states(key_states_hex: str) -> int | None:
-    """Decode heat pump tank temperature from key_states.
-
-    Observed encoding:
-      temp_c = key_states_bytes[2] - 32
-
-    Return x10 (e.g. 360 => 36.0C), to match other temps in integration.
-    """
-    if not key_states_hex or not isinstance(key_states_hex, str):
-        return None
-
-    try:
-        raw = bytes.fromhex(key_states_hex)
-        if len(raw) < 3:
-            return None
-
-        temp_c = raw[2] - 32
-        if temp_c < -20 or temp_c > 120:
-            return None
-
-        return int(temp_c) * 10
-    except Exception:
-        return None
 
 
 class AuxCloudAPI:
@@ -337,29 +312,12 @@ class AuxCloudAPI:
                     dev,
                 )
 
-                is_heat_pump = dev.get("productId") in AuxProducts.DeviceType.HEAT_PUMP
+                dev_params_task = asyncio.create_task(
+                    self.get_device_params(dev, params=[])
+                )
+                dev_special_params_task = None
 
-                # Keep original behavior for other devices.
-                # For heat pumps, use ["ver"] because newer models need snapshot mode.
-                if is_heat_pump:
-                    dev_params_task = asyncio.create_task(
-                        self.get_device_params(
-                            dev,
-                            params=(
-                                ["ver"] if AuxProducts.is_v3_heat_pump(dev) else []
-                            ),
-                        )
-                    )
-                    dev_special_params_task = None
-                else:
-                    dev_params_task = asyncio.create_task(
-                        self.get_device_params(dev, params=list([]))
-                    )
-                    dev_special_params_task = None
-
-                if AuxProducts.get_special_params_list(
-                    dev["productId"]
-                ) is not None and not AuxProducts.is_v3_heat_pump(dev):
+                if AuxProducts.get_special_params_list(dev["productId"]) is not None:
                     dev_special_params_task = asyncio.create_task(
                         self.get_device_params(
                             dev,
@@ -400,13 +358,6 @@ class AuxCloudAPI:
                     dev_special_params, BaseException
                 ):
                     dev["params"].update(dev_special_params)
-
-                # Heat pump tank temperature decoding
-                if AuxProducts.is_v3_heat_pump(dev):
-                    key_states = dev["params"].get("key_states")
-                    decoded = _decode_v3_hp_tank_temp_from_key_states(key_states)
-                    if decoded is not None:
-                        dev["params"][HP_HOT_WATER_TANK_TEMPERATURE] = decoded
 
                 dev["last_updated"] = time.strftime(
                     "%Y-%m-%d %H:%M:%S", time.localtime()
@@ -551,14 +502,6 @@ class AuxCloudAPI:
 
         req_params = list(params)
         req_vals = list(vals)
-
-        if (
-            AuxProducts.is_v3_heat_pump(device)
-            and "ver" not in req_params
-            and act == "set"
-        ):
-            req_params.append("ver")
-            req_vals.append([{"idx": 1, "val": 3}])
 
         header = self._get_directive_header(
             namespace="DNA.KeyValueControl",

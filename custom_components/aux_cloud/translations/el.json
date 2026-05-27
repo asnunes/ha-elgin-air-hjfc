@@ -56,57 +56,13 @@
       "ambient_temperature": {
         "name": "Θερμοκρασία Περιβάλλοντος"
       },
-      "water_tank_temperature": {
-        "name": "Θερμοκρασία Δεξαμενής Ζεστού Νερού"
-      },
-      "hot_water_temperature": {
-        "name": "Θερμοκρασία Ζεστού Νερού"
-      },
       "ac_temperature": {
         "name": "Θερμοκρασία Κλιματιστικού"
       }
     },
-    "water_heater": {
-      "aux_water": {
-        "name": "Θερμοσίφωνας"
-      }
-    },
     "climate": {
-      "aux_heater": {
-        "name": "Θερμαντήρας",
-        "state": {
-          "off": "Ανενεργό",
-          "heat": "Θέρμανση",
-          "cool": "Ψύξη"
-        }
-      },
       "aux_ac": {
         "name": "Κλιματιστικό"
-      }
-    },
-    "select": {
-      "aux_select_qtmode": {
-        "name": "Αθόρυβη Λειτουργία",
-        "state": {
-          "off": "Ανενεργό",
-          "quiet_1": "Αθόρυβο Επίπεδο 1",
-          "quiet_2": "Αθόρυβο Επίπεδο 2"
-        }
-      },
-      "aux_select_auto_water_temp": {
-        "name": "Αυτόματη Θερμοκρασία Νερού",
-        "state": {
-          "off": "Ανενεργό",
-          "level_1": "Ρύθμιση 1",
-          "level_2": "Ρύθμιση 2",
-          "level_3": "Ρύθμιση 3",
-          "level_4": "Ρύθμιση 4",
-          "level_5": "Ρύθμιση 5",
-          "level_6": "Ρύθμιση 6",
-          "level_7": "Ρύθμιση 7",
-          "level_8": "Ρύθμιση 8",
-          "user_defined": "Καθορισμένο από τον χρήστη"
-        }
       }
     },
     "switch": {
@@ -115,15 +71,6 @@
       },
       "aux_ac_power": {
         "name": "Ισχύς Κλιματιστικού"
-      },
-      "aux_hp_power": {
-        "name": "Ισχύς Αντλίας Θερμότητας"
-      },
-      "aux_water_power": {
-        "name": "Ισχύς Θερμοσίφωνα"
-      },
-      "aux_fast_hotwater": {
-        "name": "Γρήγορο Ζεστό Νερό"
       },
       "aux_aux_heat": {
         "name": "Βοηθητική Θέρμανση"

@@ -56,57 +56,13 @@
       "ambient_temperature": {
         "name": "Ambient Temperature"
       },
-      "water_tank_temperature": {
-        "name": "Hot Water Tank Temperature"
-      },
-      "hot_water_temperature": {
-        "name": "Hot Water Temperature"
-      },
       "ac_temperature": {
         "name": "AC Temperature"
       }
     },
-    "water_heater": {
-      "aux_water": {
-        "name": "Water Heater"
-      }
-    },
     "climate": {
-      "aux_heater": {
-        "name": "Heater",
-        "state": {
-          "off": "Off",
-          "heat": "Heating",
-          "cool": "Cooling"
-        }
-      },
       "aux_ac": {
         "name": "Air Conditioner"
-      }
-    },
-    "select": {
-      "aux_select_qtmode": {
-        "name": "Quiet Mode",
-        "state": {
-          "off": "Off",
-          "quiet_1": "Quiet Level 1",
-          "quiet_2": "Quiet Level 2"
-        }
-      },
-      "aux_select_auto_water_temp": {
-        "name": "Auto Water Temperature",
-        "state": {
-          "off": "Off",
-          "level_1": "Setting 1",
-          "level_2": "Setting 2",
-          "level_3": "Setting 3",
-          "level_4": "Setting 4",
-          "level_5": "Setting 5",
-          "level_6": "Setting 6",
-          "level_7": "Setting 7",
-          "level_8": "Setting 8",
-          "user_defined": "User Defined"
-        }
       }
     },
     "switch": {
@@ -115,15 +71,6 @@
       },
       "aux_ac_power": {
         "name": "AC Power"
-      },
-      "aux_hp_power": {
-        "name": "Heat Pump Heater Power"
-      },
-      "aux_water_power": {
-        "name": "Water Heater Power"
-      },
-      "aux_fast_hotwater": {
-        "name": "Fast Hot Water"
       },
       "aux_aux_heat": {
         "name": "Auxiliary Heat"

@@ -17,9 +17,6 @@ from .api.const import (
     AC_SLEEP,
     AUX_ECOMODE,
     AuxProducts,
-    HP_HEATER_POWER,
-    HP_WATER_FAST_HOTWATER,
-    HP_WATER_POWER,
 )
 from .const import DOMAIN, _LOGGER
 from .util import BaseEntity
@@ -39,30 +36,6 @@ SWITCHES = {
             name="AC Power",
             icon="mdi:air-conditioner",
             translation_key="aux_ac_power",
-        ),
-    },
-    HP_HEATER_POWER: {
-        "description": SwitchEntityDescription(
-            key=HP_HEATER_POWER,
-            name="Heat Pump Heater Power",
-            icon="mdi:water-thermometer",
-            translation_key="aux_hp_power",
-        ),
-    },
-    HP_WATER_POWER: {
-        "description": SwitchEntityDescription(
-            key=HP_WATER_POWER,
-            name="Water Heater Power",
-            icon="mdi:water-boiler",
-            translation_key="aux_water_power",
-        ),
-    },
-    HP_WATER_FAST_HOTWATER: {
-        "description": SwitchEntityDescription(
-            key=HP_WATER_FAST_HOTWATER,
-            name="Fast Hot Water",
-            icon="mdi:water-boiler",
-            translation_key="aux_fast_hotwater",
         ),
     },
     AC_AUXILIARY_HEAT: {
