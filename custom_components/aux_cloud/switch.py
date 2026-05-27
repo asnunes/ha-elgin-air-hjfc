@@ -8,7 +8,6 @@ from .api.const import (
     AC_AUXILIARY_HEAT,
     AC_CHILD_LOCK,
     AC_CLEAN,
-    AC_COMFORTABLE_WIND,
     AC_HEALTH,
     AC_MILDEW_PROOF,
     AC_POWER,
@@ -60,14 +59,6 @@ SWITCHES = {
             name="Child Lock",
             icon="mdi:lock",
             translation_key="aux_child_lock",
-        ),
-    },
-    AC_COMFORTABLE_WIND: {
-        "description": SwitchEntityDescription(
-            key=AC_COMFORTABLE_WIND,
-            name="Comfortable Wind",
-            icon="mdi:fan",
-            translation_key="aux_comfortable_wind",
         ),
     },
     AC_HEALTH: {

@@ -10,9 +10,7 @@ from homeassistant.components.climate import (
 from homeassistant.components.climate.const import (
     FAN_AUTO,
     SWING_OFF,
-    SWING_HORIZONTAL,
     SWING_VERTICAL,
-    SWING_BOTH,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
@@ -23,9 +21,6 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .api.const import (
     AC_FAN_SPEED,
     AUX_MODE,
-    AC_SWING_HORIZONTAL,
-    AC_SWING_HORIZONTAL_OFF,
-    AC_SWING_HORIZONTAL_ON,
     AC_SWING_VERTICAL,
     AC_SWING_VERTICAL_OFF,
     AC_SWING_VERTICAL_ON,
@@ -99,12 +94,7 @@ class AuxACClimateEntity(BaseEntity, CoordinatorEntity, ClimateEntity):
         )
         self._attr_hvac_modes = [HVACMode.OFF, *MODE_MAP_AUX_AC_TO_HA.values()]
         self._attr_fan_modes = list(FAN_MODE_HA_TO_AUX.keys())
-        self._attr_swing_modes = [
-            SWING_OFF,
-            SWING_VERTICAL,
-            SWING_HORIZONTAL,
-            SWING_BOTH,
-        ]
+        self._attr_swing_modes = [SWING_OFF, SWING_VERTICAL]
         self._attr_min_temp = 17
         self._attr_max_temp = 32
         self._attr_target_temperature_step = 0.5
@@ -194,34 +184,15 @@ class AuxACClimateEntity(BaseEntity, CoordinatorEntity, ClimateEntity):
     @property
     def swing_mode(self):
         """Return the swing mode."""
-        horizontal = bool(self._get_device_params().get(AC_SWING_HORIZONTAL, 0))
-        vertical = bool(self._get_device_params().get(AC_SWING_VERTICAL, 0))
-
-        return (
-            SWING_BOTH
-            if horizontal and vertical
-            else (
-                SWING_HORIZONTAL
-                if horizontal
-                else SWING_VERTICAL if vertical else SWING_OFF
-            )
-        )
+        if bool(self._get_device_params().get(AC_SWING_VERTICAL, 0)):
+            return SWING_VERTICAL
+        return SWING_OFF
 
     async def async_set_swing_mode(self, swing_mode):
         """Set new swing mode."""
-        params = {
-            **(
-                AC_SWING_VERTICAL_ON
-                if swing_mode in [SWING_VERTICAL, SWING_BOTH]
-                else AC_SWING_VERTICAL_OFF
-            ),
-            **(
-                AC_SWING_HORIZONTAL_ON
-                if swing_mode in [SWING_HORIZONTAL, SWING_BOTH]
-                else AC_SWING_HORIZONTAL_OFF
-            ),
-        }
-
+        params = (
+            AC_SWING_VERTICAL_ON if swing_mode == SWING_VERTICAL else AC_SWING_VERTICAL_OFF
+        )
         await self._set_device_params(params)
 
     async def async_turn_on(self):

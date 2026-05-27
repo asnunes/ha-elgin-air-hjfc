@@ -54,6 +54,15 @@ tests/                 # pytest + pytest-homeassistant-custom-component
 
 `AuxACClimateEntity` is hard-pinned to a **17–32 °C** target range (`climate.py`, `_attr_min_temp` / `_attr_max_temp`). Step is 0.5 °C. If you want to widen this, edit those two attrs — there's no config flow option for it.
 
+## Feature scope (intentional gaps)
+
+This fork targets the Elgin HJ/KO/HJFC/HJQC High Wall family. Features that aren't documented in those manuals were stripped:
+
+- **Swing**: only vertical. Horizontal swing (`ac_hdir`) was removed — these models only have a motorized vertical louver.
+- **Comfortable Wind** (`comfwind`): removed — not described in any of the operation/Wi-Fi manuals.
+
+Protocol metadata params (`new_type`, `ac_tempconvert`, `tempunit`, `sleepdiy`, `tenelec`, `ac_errcode1`, `err_flag`) stay in `AC_PARAMS` so they keep being fetched, even though no entity exposes them today. `sleepdiy` in particular is the data behind the "Dormir Personalizado" feature in the Elgin app — leave it in if you ever wire that up.
+
 ## Conventions
 
 - Code and comments: English only.

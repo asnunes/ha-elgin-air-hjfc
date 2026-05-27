@@ -27,10 +27,6 @@ AC_SWING_VERTICAL = "ac_vdir"
 AC_SWING_VERTICAL_ON = {AC_SWING_VERTICAL: 1}
 AC_SWING_VERTICAL_OFF = {AC_SWING_VERTICAL: 0}
 
-AC_SWING_HORIZONTAL = "ac_hdir"
-AC_SWING_HORIZONTAL_ON = {AC_SWING_HORIZONTAL: 1}
-AC_SWING_HORIZONTAL_OFF = {AC_SWING_HORIZONTAL: 0}
-
 AC_AUXILIARY_HEAT = "ac_astheat"
 AC_AUXILIARY_HEAT_OFF = {AC_AUXILIARY_HEAT: 0}
 AC_AUXILIARY_HEAT_ON = {AC_AUXILIARY_HEAT: 1}
@@ -46,10 +42,6 @@ AC_HEALTH_ON = {AC_HEALTH: 1}
 AC_CHILD_LOCK = "childlock"
 AC_CHILD_LOCK_OFF = {AC_CHILD_LOCK: 0}
 AC_CHILD_LOCK_ON = {AC_CHILD_LOCK: 1}
-
-AC_COMFORTABLE_WIND = "comfwind"
-AC_COMFORTABLE_WIND_OFF = {AC_COMFORTABLE_WIND: 0}
-AC_COMFORTABLE_WIND_ON = {AC_COMFORTABLE_WIND: 1}
 
 AC_MILDEW_PROOF = "mldprf"
 AC_MILDEW_PROOF_OFF = {AC_MILDEW_PROOF: 0}
@@ -105,7 +97,6 @@ class AuxProducts:
     AC_PARAMS = [
         AC_AUXILIARY_HEAT,
         AC_CLEAN,
-        AC_SWING_HORIZONTAL,
         AC_HEALTH,
         AC_FAN_SPEED,
         AUX_MODE,
@@ -121,7 +112,6 @@ class AuxProducts:
         AC_POWER_LIMIT,
         AC_POWER_LIMIT_SWITCH,
         AC_CHILD_LOCK,
-        AC_COMFORTABLE_WIND,
         "new_type",
         "ac_tempconvert",
         "sleepdiy",
@@ -157,10 +147,8 @@ AC PARAMETERS NOT TESTED ALL
 'ac_mode': 1 - Mode is set to 1, likely "Cool" mode (typical modes: 0=Auto, 1=Cool, 2=Dry, 3=Fan, 4=Heat)
 'ac_slp': 0 - Sleep mode is off
 'ac_tempconvert': 0 - No temperature conversion happening
-'ac_hdir': 0 - Horizontal airflow direction at default/center position
 'ac_vdir': 0 - Vertical airflow direction at default/center position
 'childlock': 0 - Child lock feature is off
-'comfwind': 0 - Comfortable wind mode is off
 'ecomode': 0 - Economy/energy-saving mode is off
 'envtemp': 236 - Current environment/room temperature (likely 23.6°C)
 'err_flag': 0 - No error flag
