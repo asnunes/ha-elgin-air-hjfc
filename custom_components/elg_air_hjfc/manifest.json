@@ -1,8 +1,10 @@
 {
   "domain": "elg_air_hjfc",
   "name": "Elgin Air HJFC",
+  "after_dependencies": ["lovelace"],
   "codeowners": [],
   "config_flow": true,
+  "dependencies": ["http"],
   "documentation": "https://github.com/asnunes/ha-elgin-air-hjfc",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/asnunes/ha-elgin-air-hjfc/issues",
