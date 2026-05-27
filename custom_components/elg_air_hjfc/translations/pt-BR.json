@@ -1,22 +1,22 @@
 {
   "config": {
-    "flow_title": "AUX Cloud: {name}",
+    "flow_title": "Elgin Air: {name}",
     "abort": {
       "single_instance_allowed": "Já configurado. Apenas uma configuração é permitida.",
-      "no_devices_found": "Nenhum dispositivo AUX Cloud encontrado. Verifique sua conta.",
-      "fetch_devices_failed": "Falha ao buscar dispositivos do AUX Cloud.",
+      "no_devices_found": "Nenhum dispositivo Elgin Air encontrado. Verifique sua conta.",
+      "fetch_devices_failed": "Falha ao buscar dispositivos do Elgin Air.",
       "login_required": "Login necessário antes da seleção de dispositivos."
     },
     "error": {
       "user_login_failed": "Falha no login. Verifique suas credenciais.",
-      "cannot_connect": "Falha ao conectar ao servidor AUX Cloud.",
+      "cannot_connect": "Falha ao conectar ao servidor Elgin Air.",
       "invalid_auth": "Autenticação inválida",
       "unknown": "Erro inesperado"
     },
     "step": {
       "user": {
-        "title": "Login AUX Cloud",
-        "description": "Informe as credenciais da sua conta AUX Cloud",
+        "title": "Login Elgin Air",
+        "description": "Informe as credenciais da sua conta Elgin Air",
         "data": {
           "email": "E-mail",
           "password": "Senha",
@@ -24,7 +24,7 @@
         }
       },
       "select_devices": {
-        "title": "Selecionar dispositivos AUX Cloud",
+        "title": "Selecionar dispositivos Elgin Air",
         "description": "Encontrados {devices_count} dispositivos em {families_count} residências. Selecione os dispositivos que deseja adicionar ao Home Assistant.",
         "data": {
           "selected_devices": "Selecionar dispositivos"
@@ -38,12 +38,12 @@
   "options": {
     "abort": {
       "missing_credentials": "Credenciais ausentes. Reconfigure a integração.",
-      "no_devices_found": "Nenhum dispositivo AUX Cloud encontrado. Verifique sua conta.",
-      "fetch_devices_failed": "Falha ao buscar dispositivos do AUX Cloud."
+      "no_devices_found": "Nenhum dispositivo Elgin Air encontrado. Verifique sua conta.",
+      "fetch_devices_failed": "Falha ao buscar dispositivos do Elgin Air."
     },
     "step": {
       "init": {
-        "title": "Atualizar dispositivos AUX Cloud",
+        "title": "Atualizar dispositivos Elgin Air",
         "description": "Selecione quais dispositivos você quer monitorar e controlar pelo Home Assistant.",
         "data": {
           "selected_devices": "Selecionar dispositivos"

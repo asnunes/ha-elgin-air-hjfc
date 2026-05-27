@@ -1,4 +1,10 @@
-"""Aux Cloud integration for Home Assistant."""
+"""Elgin Air HJFC integration for Home Assistant.
+
+This is a cooling-only fork of the AUX Cloud integration. The Elgin units
+are OEM-rebranded AUX/Broadlink ACs sold in Brazil and talk to the AUX
+Cloud servers — that's why the backend API client is still named
+AuxCloudAPI.
+"""
 
 import asyncio
 from datetime import timedelta

@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, AsyncMock
 import pytest
 from homeassistant.helpers.update_coordinator import UpdateFailed
 
-from custom_components.aux_cloud import AuxCloudCoordinator
+from custom_components.elg_air_hjfc import AuxCloudCoordinator
 
 # This enables all the Home Assistant pytest fixtures
 pytest_plugins = "pytest_homeassistant_custom_component"

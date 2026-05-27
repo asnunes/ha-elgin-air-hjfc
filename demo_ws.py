@@ -6,7 +6,7 @@ import time
 
 import yaml
 
-from custom_components.aux_cloud.api.aux_cloud import LICENSE_ID, AuxCloudAPI
+from custom_components.elg_air_hjfc.api.aux_cloud import LICENSE_ID, AuxCloudAPI
 
 
 def get_config_path():

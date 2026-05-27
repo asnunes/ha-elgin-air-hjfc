@@ -2,7 +2,7 @@
 
 from homeassistant.setup import async_setup_component
 
-from custom_components.aux_cloud.const import DOMAIN
+from custom_components.elg_air_hjfc.const import DOMAIN
 
 
 async def test_async_setup(hass):

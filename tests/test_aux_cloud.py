@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, AsyncMock
 
 import pytest
 
-from custom_components.aux_cloud.api.aux_cloud import (
+from custom_components.elg_air_hjfc.api.aux_cloud import (
     AuxCloudAPI,
     API_SERVER_URL_EU,
     API_SERVER_URL_USA,

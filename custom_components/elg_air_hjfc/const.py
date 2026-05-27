@@ -19,9 +19,9 @@ from .api.const import (
 
 _LOGGER = logging.getLogger(__package__)
 
-DOMAIN = "aux_cloud"
+DOMAIN = "elg_air_hjfc"
 
-DATA_AUX_CLOUD_CONFIG = "aux_cloud_config"
+DATA_AUX_CLOUD_CONFIG = "elg_air_hjfc_config"
 
 # Configuration constants
 CONF_FAMILIES = "families"
@@ -50,7 +50,7 @@ FAN_MODE_HA_TO_AUX = {
 FAN_MODE_AUX_TO_HA = {v: k for k, v in FAN_MODE_HA_TO_AUX.items()}
 
 # Brand information
-MANUFACTURER = "AUX"
+MANUFACTURER = "Elgin"
 
 # Platforms to set up
 PLATFORMS = [
