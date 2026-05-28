@@ -84,8 +84,6 @@ entity: climate.elg_air_hjfc_<id>_ac
 
 - Elgin Eco Inverter II HJFC, R32 refrigerant, BLI206-P wifi module, accessed via Elgin Air app (region **eu**).
 
-If you have a different cooling-only Elgin model and it works, open an issue and I'll add it here.
-
 ## Privacy
 
 All cloud communication goes to AUX/Broadlink servers (the same ones the Elgin app uses). Credentials are stored locally in HA. Nothing is sent to third parties beyond what the AUX cloud needs to authenticate and control the device.
