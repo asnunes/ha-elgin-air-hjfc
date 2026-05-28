@@ -47,12 +47,15 @@ jobs:
           # Create a new branch at the current commit
           git checkout -b temp-branch
           
-          # Stage and commit the manifest change
+          # Stage and commit the manifest change (skip if already at target version,
+          # e.g. when the manifest was bumped manually before tagging the release)
           git add custom_components/elg_air_hjfc/manifest.json
-          git commit -m "Bump version to ${{ env.VERSION }}"
-          
-          # Push the change to the original branch
-          git push origin HEAD:$BRANCH_NAME
+          if git diff --cached --quiet; then
+            echo "manifest.json already at ${{ env.VERSION }}; nothing to bump"
+          else
+            git commit -m "Bump version to ${{ env.VERSION }}"
+            git push origin HEAD:$BRANCH_NAME
+          fi
           
           # Clean up
           git checkout ${{ github.ref }}
