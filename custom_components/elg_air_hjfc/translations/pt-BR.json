@@ -1,0 +1,95 @@
+{
+  "config": {
+    "flow_title": "Elgin Air: {name}",
+    "abort": {
+      "single_instance_allowed": "Já configurado. Apenas uma configuração é permitida.",
+      "no_devices_found": "Nenhum dispositivo Elgin Air encontrado. Verifique sua conta.",
+      "fetch_devices_failed": "Falha ao buscar dispositivos do Elgin Air.",
+      "login_required": "Login necessário antes da seleção de dispositivos."
+    },
+    "error": {
+      "user_login_failed": "Falha no login. Verifique suas credenciais.",
+      "cannot_connect": "Falha ao conectar ao servidor Elgin Air.",
+      "invalid_auth": "Autenticação inválida",
+      "unknown": "Erro inesperado"
+    },
+    "step": {
+      "user": {
+        "title": "Login Elgin Air",
+        "description": "Informe as credenciais da sua conta Elgin Air",
+        "data": {
+          "email": "E-mail",
+          "password": "Senha",
+          "region": "Região"
+        }
+      },
+      "select_devices": {
+        "title": "Selecionar dispositivos Elgin Air",
+        "description": "Encontrados {devices_count} dispositivos em {families_count} residências. Selecione os dispositivos que deseja adicionar ao Home Assistant.",
+        "data": {
+          "selected_devices": "Selecionar dispositivos"
+        }
+      }
+    },
+    "progress": {
+      "fetching_devices": "Buscando seus dispositivos... Isso pode levar um momento."
+    }
+  },
+  "options": {
+    "abort": {
+      "missing_credentials": "Credenciais ausentes. Reconfigure a integração.",
+      "no_devices_found": "Nenhum dispositivo Elgin Air encontrado. Verifique sua conta.",
+      "fetch_devices_failed": "Falha ao buscar dispositivos do Elgin Air."
+    },
+    "step": {
+      "init": {
+        "title": "Atualizar dispositivos Elgin Air",
+        "description": "Selecione quais dispositivos você quer monitorar e controlar pelo Home Assistant.",
+        "data": {
+          "selected_devices": "Selecionar dispositivos"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "ambient_temperature": {
+        "name": "Temperatura ambiente"
+      },
+      "ac_temperature": {
+        "name": "Temperatura do ar-condicionado"
+      }
+    },
+    "climate": {
+      "aux_ac": {
+        "name": "Ar-condicionado"
+      }
+    },
+    "switch": {
+      "aux_ecomode": {
+        "name": "Modo Eco"
+      },
+      "aux_ac_power": {
+        "name": "Ligar/desligar"
+      },
+      "aux_self_cleaning": {
+        "name": "Autolimpeza"
+      },
+      "aux_child_lock": {
+        "name": "Trava de segurança"
+      },
+      "aux_health_mode": {
+        "name": "Modo saúde"
+      },
+      "aux_mildew_proof": {
+        "name": "Antimofo"
+      },
+      "aux_sleep_mode": {
+        "name": "Modo dormir"
+      },
+      "aux_screen_display": {
+        "name": "Display"
+      }
+    }
+  }
+}

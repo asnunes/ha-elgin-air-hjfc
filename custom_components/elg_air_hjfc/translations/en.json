@@ -1,0 +1,95 @@
+{
+  "config": {
+    "flow_title": "Elgin Air: {name}",
+    "abort": {
+      "single_instance_allowed": "Already configured. Only a single configuration possible.",
+      "no_devices_found": "No Elgin Air devices found. Please check your account.",
+      "fetch_devices_failed": "Failed to fetch devices from Elgin Air.",
+      "login_required": "Login required before device selection."
+    },
+    "error": {
+      "user_login_failed": "Login failed. Please check your credentials.",
+      "cannot_connect": "Failed to connect to the Elgin Air server.",
+      "invalid_auth": "Invalid authentication",
+      "unknown": "Unexpected error"
+    },
+    "step": {
+      "user": {
+        "title": "Elgin Air Login",
+        "description": "Enter your Elgin Air account credentials",
+        "data": {
+          "email": "Email",
+          "password": "Password",
+          "region": "Region"
+        }
+      },
+      "select_devices": {
+        "title": "Select Elgin Air Devices",
+        "description": "Found {devices_count} devices in {families_count} homes. Select the devices you would like to add to Home Assistant.",
+        "data": {
+          "selected_devices": "Select Devices"
+        }
+      }
+    },
+    "progress": {
+      "fetching_devices": "Fetching your devices... This may take a moment."
+    }
+  },
+  "options": {
+    "abort": {
+      "missing_credentials": "Missing credentials. Please reconfigure the integration.",
+      "no_devices_found": "No Elgin Air devices found. Please check your account.",
+      "fetch_devices_failed": "Failed to fetch devices from Elgin Air."
+    },
+    "step": {
+      "init": {
+        "title": "Update Elgin Air Devices",
+        "description": "Select which devices you want to monitor and control with Home Assistant.",
+        "data": {
+          "selected_devices": "Select Devices"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "ambient_temperature": {
+        "name": "Ambient Temperature"
+      },
+      "ac_temperature": {
+        "name": "AC Temperature"
+      }
+    },
+    "climate": {
+      "aux_ac": {
+        "name": "Air Conditioner"
+      }
+    },
+    "switch": {
+      "aux_ecomode": {
+        "name": "Ecomode"
+      },
+      "aux_ac_power": {
+        "name": "AC Power"
+      },
+      "aux_self_cleaning": {
+        "name": "Self Cleaning"
+      },
+      "aux_child_lock": {
+        "name": "Child Lock"
+      },
+      "aux_health_mode": {
+        "name": "Health Mode"
+      },
+      "aux_mildew_proof": {
+        "name": "Mildew Proof"
+      },
+      "aux_sleep_mode": {
+        "name": "Sleep Mode"
+      },
+      "aux_screen_display": {
+        "name": "Screen Display"
+      }
+    }
+  }
+}

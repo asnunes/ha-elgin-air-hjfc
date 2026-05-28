@@ -23,7 +23,7 @@ jobs:
 
       - name: Update manifest.json version
         run: |
-          sed -i 's/"version": "[^"]*"/"version": "${{ env.VERSION }}"/' custom_components/aux_cloud/manifest.json
+          sed -i 's/"version": "[^"]*"/"version": "${{ env.VERSION }}"/' custom_components/elg_air_hjfc/manifest.json
           
       - name: Configure Git
         run: |
@@ -48,7 +48,7 @@ jobs:
           git checkout -b temp-branch
           
           # Stage and commit the manifest change
-          git add custom_components/aux_cloud/manifest.json
+          git add custom_components/elg_air_hjfc/manifest.json
           git commit -m "Bump version to ${{ env.VERSION }}"
           
           # Push the change to the original branch

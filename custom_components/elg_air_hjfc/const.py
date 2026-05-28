@@ -13,16 +13,15 @@ from .api.const import (
     AC_MODE_COOLING,
     AC_MODE_DRY,
     AC_MODE_FAN,
-    AC_MODE_HEATING,
     AUX_MODE,
     ACFanSpeed,
 )
 
 _LOGGER = logging.getLogger(__package__)
 
-DOMAIN = "aux_cloud"
+DOMAIN = "elg_air_hjfc"
 
-DATA_AUX_CLOUD_CONFIG = "aux_cloud_config"
+DATA_AUX_CLOUD_CONFIG = "elg_air_hjfc_config"
 
 # Configuration constants
 CONF_FAMILIES = "families"
@@ -32,7 +31,6 @@ CONF_SELECTED_DEVICES = "selected_devices"
 MODE_MAP_AUX_AC_TO_HA = {
     AC_MODE_AUTO.get(AUX_MODE): HVACMode.AUTO,
     AC_MODE_COOLING.get(AUX_MODE): HVACMode.COOL,
-    AC_MODE_HEATING.get(AUX_MODE): HVACMode.HEAT,
     AC_MODE_DRY.get(AUX_MODE): HVACMode.DRY,
     AC_MODE_FAN.get(AUX_MODE): HVACMode.FAN_ONLY,
 }
@@ -52,14 +50,11 @@ FAN_MODE_HA_TO_AUX = {
 FAN_MODE_AUX_TO_HA = {v: k for k, v in FAN_MODE_HA_TO_AUX.items()}
 
 # Brand information
-MANUFACTURER = "AUX"
+MANUFACTURER = "Elgin"
 
 # Platforms to set up
 PLATFORMS = [
     Platform.CLIMATE,
     Platform.SENSOR,
-    Platform.WATER_HEATER,
-    Platform.SELECT,
     Platform.SWITCH,
-    Platform.NUMBER,
 ]

@@ -5,21 +5,15 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .api.const import (
-    AC_AUXILIARY_HEAT,
     AC_CHILD_LOCK,
     AC_CLEAN,
-    AC_COMFORTABLE_WIND,
     AC_HEALTH,
     AC_MILDEW_PROOF,
     AC_POWER,
-    AC_POWER_LIMIT_SWITCH,
     AC_SCREEN_DISPLAY,
     AC_SLEEP,
     AUX_ECOMODE,
     AuxProducts,
-    HP_HEATER_POWER,
-    HP_WATER_FAST_HOTWATER,
-    HP_WATER_POWER,
 )
 from .const import DOMAIN, _LOGGER
 from .util import BaseEntity
@@ -41,38 +35,6 @@ SWITCHES = {
             translation_key="aux_ac_power",
         ),
     },
-    HP_HEATER_POWER: {
-        "description": SwitchEntityDescription(
-            key=HP_HEATER_POWER,
-            name="Heat Pump Heater Power",
-            icon="mdi:water-thermometer",
-            translation_key="aux_hp_power",
-        ),
-    },
-    HP_WATER_POWER: {
-        "description": SwitchEntityDescription(
-            key=HP_WATER_POWER,
-            name="Water Heater Power",
-            icon="mdi:water-boiler",
-            translation_key="aux_water_power",
-        ),
-    },
-    HP_WATER_FAST_HOTWATER: {
-        "description": SwitchEntityDescription(
-            key=HP_WATER_FAST_HOTWATER,
-            name="Fast Hot Water",
-            icon="mdi:water-boiler",
-            translation_key="aux_fast_hotwater",
-        ),
-    },
-    AC_AUXILIARY_HEAT: {
-        "description": SwitchEntityDescription(
-            key=AC_AUXILIARY_HEAT,
-            name="Auxiliary Heat",
-            icon="mdi:heat-wave",
-            translation_key="aux_aux_heat",
-        ),
-    },
     AC_CLEAN: {
         "description": SwitchEntityDescription(
             key=AC_CLEAN,
@@ -87,14 +49,6 @@ SWITCHES = {
             name="Child Lock",
             icon="mdi:lock",
             translation_key="aux_child_lock",
-        ),
-    },
-    AC_COMFORTABLE_WIND: {
-        "description": SwitchEntityDescription(
-            key=AC_COMFORTABLE_WIND,
-            name="Comfortable Wind",
-            icon="mdi:fan",
-            translation_key="aux_comfortable_wind",
         ),
     },
     AC_HEALTH: {
@@ -127,14 +81,6 @@ SWITCHES = {
             name="Screen Display",
             icon="mdi:monitor-dashboard",
             translation_key="aux_screen_display",
-        ),
-    },
-    AC_POWER_LIMIT_SWITCH: {
-        "description": SwitchEntityDescription(
-            key=AC_POWER_LIMIT_SWITCH,
-            name="Power Limit",
-            icon="mdi:power-socket-eu",
-            translation_key="aux_power_limit",
         ),
     },
 }

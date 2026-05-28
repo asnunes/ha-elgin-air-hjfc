@@ -1,0 +1,149 @@
+from enum import auto
+
+
+# Common constants
+AUX_MODE = "ac_mode"
+
+AUX_ECOMODE = "ecomode"
+AUX_ECOMODE_OFF = {AUX_ECOMODE: 0}
+AUX_ECOMODE_ON = {AUX_ECOMODE: 1}
+AUX_ERROR_FLAG = "err_flag"
+
+# AC constants
+AC_POWER = "pwr"
+AC_POWER_OFF = {AC_POWER: 0}
+AC_POWER_ON = {AC_POWER: 1}
+
+AC_TEMPERATURE_TARGET = "temp"
+AC_TEMPERATURE_AMBIENT = "envtemp"
+
+AC_MODE_COOLING = {AUX_MODE: 0}
+AC_MODE_DRY = {AUX_MODE: 2}
+AC_MODE_FAN = {AUX_MODE: 3}
+AC_MODE_AUTO = {AUX_MODE: 4}
+
+AC_SWING_VERTICAL = "ac_vdir"
+AC_SWING_VERTICAL_ON = {AC_SWING_VERTICAL: 1}
+AC_SWING_VERTICAL_OFF = {AC_SWING_VERTICAL: 0}
+
+AC_CLEAN = "ac_clean"
+AC_CLEAN_OFF = {AC_CLEAN: 0}
+AC_CLEAN_ON = {AC_CLEAN: 1}
+
+AC_HEALTH = "ac_health"
+AC_HEALTH_OFF = {AC_HEALTH: 0}
+AC_HEALTH_ON = {AC_HEALTH: 1}
+
+AC_CHILD_LOCK = "childlock"
+AC_CHILD_LOCK_OFF = {AC_CHILD_LOCK: 0}
+AC_CHILD_LOCK_ON = {AC_CHILD_LOCK: 1}
+
+AC_MILDEW_PROOF = "mldprf"
+AC_MILDEW_PROOF_OFF = {AC_MILDEW_PROOF: 0}
+AC_MILDEW_PROOF_ON = {AC_MILDEW_PROOF: 1}
+
+AC_SLEEP = "ac_slp"
+AC_SLEEP_OFF = {AC_SLEEP: 0}
+AC_SLEEP_ON = {AC_SLEEP: 1}
+
+AC_SCREEN_DISPLAY = "scrdisp"
+AC_SCREEN_DISPLAY_OFF = {AC_SCREEN_DISPLAY: 0}
+AC_SCREEN_DISPLAY_ON = {AC_SCREEN_DISPLAY: 1}
+
+# This is a special parameter that allows for fetching envtemp from the AC
+AC_MODE_SPECIAL = "mode"
+
+AC_FAN_SPEED = "ac_mark"
+
+
+class ACFanSpeed(auto):
+    PARAM_NAME = "ac_mark"
+
+    """
+    Fan speed levels for AUX air conditioners.
+    """
+    AUTO = 0
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+    TURBO = 4
+    MUTE = 5
+
+
+class AuxProducts:
+    class DeviceType:
+        AC_GENERIC = [
+            "000000000000000000000000c0620000",
+            "0000000000000000000000002a4e0000",
+        ]
+
+    @staticmethod
+    def get_device_name(product_id):
+        """A utility method to determine the device name based on a given product ID."""
+        if product_id in AuxProducts.DeviceType.AC_GENERIC:
+            return "AUX Air Conditioner"
+        return "Unknown"
+
+    AC_PARAMS = [
+        AC_CLEAN,
+        AC_HEALTH,
+        AC_FAN_SPEED,
+        AUX_MODE,
+        AC_SLEEP,
+        AC_SWING_VERTICAL,
+        AUX_ECOMODE,
+        AUX_ERROR_FLAG,
+        AC_MILDEW_PROOF,
+        AC_POWER,
+        AC_SCREEN_DISPLAY,
+        AC_TEMPERATURE_TARGET,
+        AC_TEMPERATURE_AMBIENT,
+        AC_CHILD_LOCK,
+        "new_type",
+        "ac_tempconvert",
+        "sleepdiy",
+        "ac_errcode1",
+        "tempunit",
+        "tenelec",  # Unknown, might be available when the device is in specific state
+    ]
+
+    AC_SPECIAL_PARAMS = [AC_MODE_SPECIAL]
+
+    @staticmethod
+    def get_params_list(product_id):
+        """Return the params list for the given product ID, or None if unknown."""
+        if product_id in AuxProducts.DeviceType.AC_GENERIC:
+            return AuxProducts.AC_PARAMS
+        return None
+
+    @staticmethod
+    def get_special_params_list(product_id):
+        """Return the special params list for the given product ID, or None if unknown."""
+        if product_id in AuxProducts.DeviceType.AC_GENERIC:
+            return AuxProducts.AC_SPECIAL_PARAMS
+        return None
+
+
+"""
+AC PARAMETERS NOT TESTED ALL
+'ac_clean': 0 - Self-cleaning function is off
+'ac_errcode1': 0 - No error code (system functioning normally)
+'ac_health': 0 - Health function (likely ionizer/purifier) is off
+'ac_mark': 1 - Fan speed 1 is lowest speed (typical speeds: 1=Low, 2=Medium, 3=High, 4=Turbo, 5=Mute)
+'ac_mode': 1 - Mode is set to 1 (cooling-only fork; modes: 0=Auto, 1=Cool, 2=Dry, 3=Fan)
+'ac_slp': 0 - Sleep mode is off
+'ac_tempconvert': 0 - No temperature conversion happening
+'ac_vdir': 0 - Vertical airflow direction at default/center position
+'childlock': 0 - Child lock feature is off
+'ecomode': 0 - Economy/energy-saving mode is off
+'envtemp': 236 - Current environment/room temperature (likely 23.6°C)
+'err_flag': 0 - No error flag
+'mldprf': 0 - Mildew proof/prevention function is off
+'model': 1 - Device model identifier
+'new_type': 1 - Indicates this is a newer type of AC unit
+'pwr': 0 - Power is off (unit is in standby)
+'scrdisp': 1 - Screen display is on
+'sleepdiy': 1 - Custom sleep mode is on
+'temp': 240 - Set temperature (likely 24.0°C)
+'tempunit': 1 - Temperature unit (1 typically means Celsius)
+"""

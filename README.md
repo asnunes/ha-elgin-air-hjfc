@@ -1,170 +1,131 @@
-# AUX Cloud Integration for Home Assistant
+# Elgin Air HJFC for Home Assistant
 
-Unofficial integration for Aux Cloud connected appliances like air conditioners and heat pumps. Aux Cloud is a service
-based on the Broadlink platform that allows you to control your appliances from anywhere. This is a cloud alternative
-to [replacing wifi module in your AC](https://github.com/GrKoR/esphome_aux_ac_component). This integration will also allow you
-to control AUX heat pumps. The implementation of API requests is based on public resources from [Broadlink documentation](https://docs.ibroadlink.com/public/appsdk/sdk_others/dnacontrol/) and reverse engineering.
+Home Assistant integration for **cooling-only Elgin HJFC** split air conditioners (Eco Inverter II family, sold in Brazil). Adds the AC as a `climate` entity plus the switches and sensors that the AUX cloud protocol actually exposes — mode, temperature, fan, swing, sleep, anti-mold, self-cleaning, IonAir, child lock, screen display, and ambient/target temperatures.
 
-## Features
+The Elgin units are OEM-rebranded AUX/Broadlink hardware. The wifi module (BLI206-P or TYAUX-J/J2) talks to the **AUX Cloud** servers — the same backend the *Elgin Air* and *Elgin Smart* mobile apps use. Your Elgin Air credentials work as-is.
 
-- Control AUX air conditioners and heat pumps from Home Assistant
-- View device status and sensor readings
-- Support for both personal and shared devices
-- Secure credential storage (when configured through UI)
+This is a personal fork of [maeek/ha-aux-cloud](https://github.com/maeek/ha-aux-cloud). The upstream targets the broader AUX product family (cool/heat ACs, heat pumps, multiple regions, multiple locales). This fork strips everything that does not apply to a single frio HJFC unit.
+
+## What was kept vs. removed
+
+**Kept (vs. upstream)**
+
+- AC climate entity: HVAC modes `AUTO`, `COOL`, `DRY`, `FAN_ONLY`; fan speeds Auto/Low/Med/High/Turbo/Silent; vertical swing
+- Sensors: ambient temperature, target temperature, error flag
+- Switches: Eco mode, AC power, Self-cleaning, Child lock, IonAir (labeled "Health Mode" internally), Anti-mold, Sleep mode, Screen display
+- Locales: English and Brazilian Portuguese
+- 17–32 °C target range (hard-coded)
+
+**Removed (and why)**
+
+| Removed | Why |
+|---|---|
+| Heat pump platform (climate, water_heater, HP switches/sensors/selects) | Not applicable to a split AC |
+| HVAC `HEAT` mode + Auxiliary Heat switch | Cooling-only fork — Elgin HJQC (quente/frio) is not the target |
+| Horizontal swing (`ac_hdir`) | High Wall units only have a motorized vertical louver |
+| Comfortable Wind (`comfwind`) | Not documented in any Elgin manual |
+| Power Limit switch + percentage | Out of scope |
+| Greek and Polish locales | Brazilian market only |
+
+A full architecture and feature-scope breakdown is in [`CLAUDE.md`](CLAUDE.md).
 
 ## Installation
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=maeek&repository=ha-aux-cloud&category=integration)
-[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=aux_cloud)
+### HACS Custom Repository (recommended)
 
-## HACS Installation (Recommended)
+1. Make sure you have [HACS](https://hacs.xyz/) installed.
+2. HACS → menu (⋮) → **Custom repositories**.
+3. Add `https://github.com/asnunes/ha-elgin-air-hjfc` as category **Integration**.
+4. Install **Elgin Air HJFC**.
+5. Restart Home Assistant.
 
-1. Make sure you have [HACS](https://hacs.xyz/) installed
-2. Go to HACS > Integrations
-3. Search for "AUX Cloud"
-4. Install the integration
-5. Restart Home Assistant
+### Manual
 
-## Manual Installation
-
-1. Download this repository
-2. Copy the `custom_components/aux_cloud` folder to your Home Assistant `custom_components` directory
-3. Restart Home Assistant
+1. Copy `custom_components/elg_air_hjfc/` into your Home Assistant `config/custom_components/`.
+2. Restart Home Assistant.
 
 ## Configuration
 
-## UI Configuration (Recommended)
+After install:
 
-The recommended way to set up this integration is through the Home Assistant UI:
+1. **Settings** → **Devices & Services** → **+ Add Integration** → search **Elgin Air HJFC**.
+2. Enter your Elgin Air (AUX cloud) account email and password.
+3. Pick the region — for Elgin units in Brazil this is **eu** (Elgin Air points to the European Broadlink/AUX server).
+4. Select the AC(s) you want to add.
 
-1. Go to **Settings** > **Devices & Services**
-2. Click the **+ Add Integration** button
-3. Search for "AUX Cloud" and select it
-4. Enter your AUX Cloud email and password
-5. Select your region (e.g., Europe, USA or China - based on your AUX Cloud account)
-6. Select which devices you want to add to Home Assistant
+Credentials are stored in HA's `.storage/core.config_entries`.
 
-  > [!TIP]
-  > Make sure that your devices are online when setting up the integration. If you add a device that is offline, it will not add all the entities. You will need to reload the integration manually.
+> [!TIP]
+> Make sure the AC is online when adding it. Offline units skip the param fetch and end up with missing entities until you reload the integration.
 
-Your credentials will be stored securely in Home Assistant's `.storage/core.config_entries` storage.
+## Custom Lovelace card (optional)
 
-## Usage
+The integration ships a custom card, `elgin-thermostat-card`, that replaces the default thermostat with a thermostat + inline Display toggle button. It is auto-registered as a Lovelace resource on Storage-mode dashboards (the default). If you run YAML-mode Lovelace, add `/elg_air_hjfc_frontend/elgin-thermostat-card.js` manually under **Settings → Dashboards → Resources** as type *module*.
 
-After setting up the integration, your AUX devices will be available as climate entities in Home Assistant. You can
-control them through:
+Usage:
 
-- The Home Assistant UI
-- Automations
-- Scripts
-- Voice assistants integrated with Home Assistant
+```yaml
+type: custom:elgin-thermostat-card
+entity: climate.elg_air_hjfc_<id>_ac
+# display_entity is auto-discovered from the same device;
+# override only if you have multiple climates and want to pin one.
+# display_entity: switch.elg_air_hjfc_<id>_scrdisp
+# name: Sala
+```
 
-## Troubleshooting
+## Known limitations
 
-If you encounter issues:
+- **Logging into the Elgin Air mobile app invalidates the integration's session** (at least on Android). Reload the integration after using the app.
+- **No timer / scheduled on-off entity** — the cloud protocol param for this hasn't been wired into the integration. Use HA automations as a workaround.
+- **No "Dormir Personalizado"** — the data (`sleepdiy`) is fetched but not exposed as an entity.
+- **Session re-login** on token expiry isn't implemented; if the cloud drops the session you may need to reload the integration.
 
-1. Check the Home Assistant logs for error messages
-2. Verify your AUX Cloud credentials and selected region is correct
-3. Ensure your devices are online and accessible through the AUX Cloud app
-4. If you've recently changed your password, you'll need to reconfigure the integration
+## Hardware tested
 
-## Known Issues
+- Elgin Eco Inverter II HJFC, R32 refrigerant, BLI206-P wifi module, accessed via Elgin Air app (region **eu**).
 
-- **Logging in the App**: The login process in the app will log out any existing sessions (at least on Android). If you log in the app, reload the integration.
-
-> [!NOTE]
-> There are plans to implement automatic relogging if the request fails due to session expiry.
-
-- **Shared devices**: If your account has shared devices, you might encounter an issue that `Platform aux_cloud does not generate unique ids`, check your HA logs and transfer ownership of the device to your account.
-
-## Development
-
-This integration is still in development. Current status:
-
-- [x] Reverse engineer the AUX Cloud API
-- [x] [API] Implement login
-- [x] [API] Implement getting devices' information
-- [x] [Home Assistant] Config flow with device selection
-- [x] [API] Implement updating device state
-- [x] [Home Assistant] Cloud data fetcher
-- [x] [Home Assistant] Data coordinator
-- [x] [Home Assistant] climate entity
-- [x] [Home Assistant] sensor entity
-- [x] [Home Assistant] water heater entity
-- [x] [Home Assistant] basic sensor entities
-- [x] [Home Assistant] switch entity
-- [x] [Home Assistant] Fix reconfigure - adding new devices requires reload of integration
-- [x] [Home Assistant] Parallelize data fetching for devices - don't wait for one device to finish before starting another
-- [x] [Home Assistant] Add an icon to https://github.com/home-assistant/brands
-- [ ] [API] Implement session check and re-login
-- [ ] [Home Assistant] services
-- [ ] [Home Assistant] Manual tests
-- [ ] [Home Assistant] Unit tests
-- [ ] [API] WebSocket connection for instant updates
-- [x] Documentation
-- [ ] Add to HACS
-- [ ] Translations
+If you have a different cooling-only Elgin model and it works, open an issue and I'll add it here.
 
 ## Privacy
 
-This integration communicates with the AUX Cloud servers but stores your credentials locally in Home Assistant's internal storage (when configured through the UI). No data is shared with third parties beyond what's necessary to communicate with AUX Cloud services.
+All cloud communication goes to AUX/Broadlink servers (the same ones the Elgin app uses). Credentials are stored locally in HA. Nothing is sent to third parties beyond what the AUX cloud needs to authenticate and control the device.
 
-## Contributing
+## Credits
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- Upstream: [maeek/ha-aux-cloud](https://github.com/maeek/ha-aux-cloud) — the original reverse-engineered AUX Cloud integration.
+- Broadlink SDK references: [docs.ibroadlink.com](https://docs.ibroadlink.com/public/appsdk/sdk_others/dnacontrol/).
+- ESPHome alternative (local control by replacing the wifi module): [GrKoR/esphome_aux_ac_component](https://github.com/GrKoR/esphome_aux_ac_component).
 
-## Testing
+## Development
 
-This document describes how to run tests and perform code quality checks for the AUX Cloud Integration.
-
-## Devices
-
-Integration support and was tested on devices:
-- AC:
-  1. AUX Freedom model AUX-12F2H/I
-- Heat pump:
-  1. AUX ACHP-HO8/4R3HA-I
-
-## Prerequisites
-
-Before running tests, ensure you have all the required dependencies installed:
+Python side:
 
 ```bash
 pip install -r requirements.test.txt
-```
-
-## Running Tests with pytest
-
-### Basic Test Run
-
-Run all tests:
-
-```bash
 pytest
+pylint custom_components/elg_air_hjfc --fail-under=9.7
+black custom_components/elg_air_hjfc
 ```
 
-### Test with Coverage Reporting
+Standalone API smoke tests (outside HA) live in `demo.py` and `demo_ws.py`.
 
-Run tests and show coverage information:
+Frontend side (the custom card is a Lit + TypeScript module):
 
 ```bash
-pytest --cov=custom_components
+cd frontend
+npm install
+npm run typecheck   # tsc --noEmit
+npm run build       # bundles to custom_components/elg_air_hjfc/www/elgin-thermostat-card.js
+npm run watch       # rebuild on save during development
 ```
 
-## Code Quality Checks with pylint
+Source layout (`frontend/src/`):
 
-### Basic pylint Check
+- `elgin-thermostat-card.ts` — main element, config + orchestration
+- `components/temperature-dial.ts` — target/current temp + ± buttons
+- `components/hvac-mode-selector.ts` — HVAC mode chip row
+- `components/display-toggle.ts` — Display on/off pill
+- `utils/entity-discovery.ts` — auto-discover the `*_scrdisp` switch from the climate's device
+- `types.ts` — minimal HA + config types
 
-Run pylint on the entire component:
-
-```bash
-pylint custom_components/aux_cloud
-```
-
-### Code formatting
-
-The project uses [Black](https://pypi.org/project/black/) for code formatting. To format the code, run:
-
-```bash
-black custom_components/aux_cloud
-```
+The built `.js` is committed under `custom_components/.../www/` so end users don't need Node.

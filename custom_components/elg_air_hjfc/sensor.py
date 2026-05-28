@@ -14,9 +14,6 @@ from .api.const import (
     AC_TEMPERATURE_TARGET,
     AUX_ERROR_FLAG,
     AuxProducts,
-    HP_HOT_WATER_TANK_TEMPERATURE,
-    HP_HOT_WATER_TEMPERATURE_TARGET,
-    HP_HEATER_TEMPERATURE_TARGET,
 )
 from .const import DOMAIN, _LOGGER
 from .util import BaseEntity
@@ -35,37 +32,6 @@ SENSORS: dict[str, dict[str, any]] = {
         ),
         "get_fn": lambda d: d.get("params", {}).get(AC_TEMPERATURE_AMBIENT, 0) / 10,
     },
-    HP_HOT_WATER_TANK_TEMPERATURE: {
-        "type": "temperature",
-        "param": HP_HOT_WATER_TANK_TEMPERATURE,
-        "description": SensorEntityDescription(
-            key=HP_HOT_WATER_TANK_TEMPERATURE,
-            name="Water Tank Temperature",
-            icon="mdi:thermometer-water",
-            translation_key="water_tank_temperature",
-            device_class="temperature",
-            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        ),
-        "get_fn": lambda d: (
-            d.get("params", {}).get(HP_HOT_WATER_TANK_TEMPERATURE, 0) / 10
-            if AuxProducts.is_v3_heat_pump(d)
-            else d.get("params", {}).get(HP_HOT_WATER_TANK_TEMPERATURE, 0)
-        ),
-    },
-    HP_HOT_WATER_TEMPERATURE_TARGET: {
-        "type": "temperature",
-        "param": HP_HOT_WATER_TEMPERATURE_TARGET,
-        "description": SensorEntityDescription(
-            key=HP_HOT_WATER_TEMPERATURE_TARGET,
-            name="Hot Water Temperature",
-            icon="mdi:thermometer-water",
-            translation_key="hot_water_temperature",
-            device_class="temperature",
-            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        ),
-        "get_fn": lambda d: d.get("params", {}).get(HP_HOT_WATER_TEMPERATURE_TARGET, 0)
-        / 10,
-    },
     AC_TEMPERATURE_TARGET: {
         "type": "temperature",
         "param": AC_TEMPERATURE_TARGET,
@@ -78,20 +44,6 @@ SENSORS: dict[str, dict[str, any]] = {
             native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         ),
         "get_fn": lambda d: d.get("params", {}).get(AC_TEMPERATURE_TARGET, 0) / 10,
-    },
-    HP_HEATER_TEMPERATURE_TARGET: {
-        "type": "temperature",
-        "param": HP_HEATER_TEMPERATURE_TARGET,
-        "description": SensorEntityDescription(
-            key=HP_HEATER_TEMPERATURE_TARGET,
-            name="HP Target Temperature",
-            icon="mdi:home-thermometer",
-            translation_key="ac_temperature",
-            device_class="temperature",
-            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        ),
-        "get_fn": lambda d: d.get("params", {}).get(HP_HEATER_TEMPERATURE_TARGET, 0)
-        / 10,
     },
     AUX_ERROR_FLAG: {
         "type": "diagnostic",
